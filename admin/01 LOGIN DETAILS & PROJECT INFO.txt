@@ -1,0 +1,16 @@
+**Recommended PHP Version 5.6, 7.4**
+
+
+**Admin Login Details**
+
+Username: ccbd
+Password: CodeCampBD2023
+
+or 
+admin
+admin
+
+User Login
+test
+parola
+
