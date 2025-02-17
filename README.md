@@ -1,7 +1,3 @@
-Eu qr code + modificari dasbhoard & db
-Andrian partea design
-Maxim partea de pagina user cu posibilitatea de a edita datele despre el
-Valeriu adauga produsele sortate pe categorie, descriere, imagine.
 
 
 # Online-Food-Ordering-System-in-PHP
