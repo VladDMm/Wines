@@ -15,8 +15,21 @@ else
 $form_id=$_GET['form_id'];
 $status=$_POST['status'];
 $remark=$_POST['remark'];
-$query=mysqli_query($db,"insert into remark(frm_id,status,remark) values('$form_id','$status','$remark')");
-$sql=mysqli_query($db,"update users_orders set status='$status' where o_id='$form_id'");
+// Inserare remark
+$query = mysqli_query($db, "INSERT INTO remark(frm_id, status, remark) VALUES('$form_id', '$status', '$remark')");
+
+if ($query) {
+    // Actualizare status comanda in tabelul users_orders
+    $sql = mysqli_query($db, "UPDATE users_orders SET status='$status' WHERE o_id='$form_id'");
+    
+    if ($sql) {
+        echo "Statusul comenzii și remarcul au fost actualizate cu succes.";
+    } else {
+        echo "Eroare la actualizarea statusului comenzii.";
+    }
+} else {
+    echo "Eroare la inserarea remark-ului.";
+}
 
 echo "<script>alert('Form Details Updated Successfully');</script>";
 

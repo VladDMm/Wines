@@ -150,65 +150,84 @@ session_start();
                                                                 <th>Price</th>
                                                                 <th>Address</th>
                                                                 <th>Status</th>
-                                                                <th>Reg-Date</th>
-                                                                <th>Action</th>
+                                                                <!-- <th>Action</th> -->
                                                             </tr>
                                                         </thead>
                                                         <tbody>
 
 
-                                                            <?php
-												$sql = "SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id = users_orders.u_id";
-                                                $query = mysqli_query($db, $sql);
-                                                
-                                                if (!mysqli_num_rows($query) > 0) {
-                                                    echo '<td colspan="8"><center>No Orders</center></td>';
-                                                } else {
-                                                    $totalPrice = 0; // Inițializează suma totală
-                                                
-                                                    while ($rows = mysqli_fetch_array($query)) {
-                                                        // Calculul totalului pe fiecare comandă
-                                                        $total = $rows['quantity'] * $rows['price'];
-                                                        $totalPrice += $total; // Adaugă totalul comenzii la suma totală
-                                                        ?>
-                                                        <tr>
-                                                            <td><?php echo $rows['username']; ?></td>
-                                                            <td><?php echo $rows['quantity']; ?></td>
-                                                            <td>$<?php echo $rows['price']; ?></td>
-                                                            <td><?php echo $rows['address']; ?></td>
-                                                
-                                                            <?php
-                                                            $status = $rows['status'];
-                                                            if ($status == "" || $status == "NULL") {
-                                                                echo '<td><button type="button" class="btn btn-info"><span class="fa fa-bars" aria-hidden="true"></span> Dispatch</button></td>';
-                                                            } elseif ($status == "in process") {
-                                                                echo '<td><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin" aria-hidden="true"></span> În curs de livrare!</button></td>';
-                                                            } elseif ($status == "closed") {
-                                                                echo '<td><button type="button" class="btn btn-primary"><span class="fa fa-check-circle" aria-hidden="true"></span> Livrat</button></td>';
-                                                            } elseif ($status == "rejected") {
-                                                                echo '<td><button type="button" class="btn btn-danger"><i class="fa fa-close"></i> Anulat</button></td>';
-                                                            }
-                                                            ?>
-                                                
-                                                            <td><?php echo $rows['date']; ?></td>
-                                                            <td>
-                                                                <a href="delete_orders.php?order_del=<?php echo $rows['o_id']; ?>" onclick="return confirm('Are you sure?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
-                                                                <a href="view_order.php?user_upd=<?php echo $rows['o_id']; ?>" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
-                                                            </td>
-                                                        </tr>
                                                         <?php
-                                                    }
-                                                
-                                                    // Afișează totalul comenzii
-                                                    echo "<tr>
-                                                            <td colspan='7' style='text-align: right;'><strong>Total:</strong></td>
-                                                            <td>$" . number_format($totalPrice, 2) . "</td>
-                                                        </tr>";
-                                                }
-                                                ?>
-                                                
+                                                                $sql = "SELECT users.*, users_orders.* FROM users 
+                                                                        INNER JOIN users_orders ON users.u_id = users_orders.u_id";
 
+                                                                $query = mysqli_query($db, $sql);
 
+                                                                if (!mysqli_num_rows($query) > 0) {
+                                                                    echo '<td colspan="8"><center>No Orders</center></td>';
+                                                                } else {
+                                                                    $users_data = []; // Array pentru a salva datele utilizatorilor
+
+                                                                    // Colectăm datele pentru fiecare utilizator
+                                                                    while ($rows = mysqli_fetch_array($query)) {
+                                                                        $user_id = $rows['u_id'];
+                                                                        $order_status = $rows['status'];
+
+                                                                        // Verificăm dacă utilizatorul și statusul acestuia au fost deja adăugate
+                                                                        if (!isset($users_data[$user_id])) {
+                                                                            $users_data[$user_id] = [];
+                                                                        }
+
+                                                                        // Dacă nu există o comandă cu acest status, o adăugăm
+                                                                        if (!isset($users_data[$user_id][$order_status])) {
+                                                                            $users_data[$user_id][$order_status] = [
+                                                                                'username' => $rows['username'],
+                                                                                'total_quantity' => 0,
+                                                                                'total_price' => 0,
+                                                                                'address' => $rows['address'],
+                                                                                'status' => $order_status
+                                                                            ];
+                                                                        }
+
+                                                                        // Adăugăm cantitatea și prețul la totalurile comenzilor cu același status
+                                                                        $users_data[$user_id][$order_status]['total_quantity'] += $rows['quantity'];
+                                                                        $users_data[$user_id][$order_status]['total_price'] += $rows['quantity'] * $rows['price'];
+                                                                    }
+
+                                                                    // Afișăm datele pentru fiecare utilizator
+                                                                    foreach ($users_data as $user_id => $statuses) {
+                                                                        foreach ($statuses as $status => $user_info) {
+                                                                            ?>
+                                                                            <tr>
+                                                                                <td><?php echo $user_info['username']; ?></td>
+                                                                                <td><?php echo $user_info['total_quantity']; ?></td>
+                                                                                <td>$<?php echo number_format($user_info['total_price'], 2); ?></td>
+                                                                                <td><?php echo $user_info['address']; ?></td>
+
+                                                                                <?php
+                                                                                // Afișăm statusul
+                                                                                if ($status == "" || $status == "NULL") {
+                                                                                    echo '<td><button type="button" class="btn btn-info"><span class="fa fa-bars" aria-hidden="true"></span> Dispatch</button></td>';
+                                                                                } elseif ($status == "in process") {
+                                                                                    echo '<td><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin" aria-hidden="true"></span> În curs de livrare!</button></td>';
+                                                                                } elseif ($status == "closed") {
+                                                                                    echo '<td><button type="button" class="btn btn-primary"><span class="fa fa-check-circle" aria-hidden="true"></span> Livrat</button></td>';
+                                                                                } elseif ($status == "rejected") {
+                                                                                    echo '<td><button type="button" class="btn btn-danger"><i class="fa fa-close"></i> Anulat</button></td>';
+                                                                                } elseif ($status == "dispatch") {
+                                                                                    echo '<td><button type="button" class="btn btn-info"><span class="fa fa-bars" aria-hidden="true"></span> Dispatch</button></td>';
+                                                                                }
+                                                                                ?>
+
+                                                                                <!-- <td>
+                                                                                    <a href="delete_orders.php?order_del=<?php echo $user_id; ?>" onclick="return confirm('Are you sure?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
+                                                                                    <a href="view_order.php?user_upd=<?php echo $user_id; ?>" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
+                                                                                </td> -->
+                                                                            </tr>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                }
+                                                                ?>
 
                                                         </tbody>
                                                     </table>
