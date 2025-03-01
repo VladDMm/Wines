@@ -26,9 +26,10 @@ if (isset($_GET['order_del'])) {
 
     // Ștergem comanda din baza de date
     mysqli_query($db, "DELETE FROM users_orders WHERE o_id = '$order_id'");
+    mysqli_query($db, "DELETE FROM user_orders_detailed WHERE o_id = '$order_id'");
+
 
     // Redirecționare
     header("location:your_orders.php");
     exit();
 }
-?>

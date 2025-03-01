@@ -5,6 +5,7 @@ include("connection/connect.php");
 error_reporting(0);
 session_start();
 ?>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +19,18 @@ session_start();
     <link href="css/animsition.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        @media only screen and (max-width: 768px) {
+            .navbar-toggler {
+                font-size: 24px;
+                padding: 5px 10px;
+            }
+
+            .navbar-brand img {
+                width: 40%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -29,26 +42,23 @@ session_start();
                 <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/logo.png" alt="" width="18%"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
-                    <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link active" href="index.php">Acasă <span class="sr-only">(current)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="services.php">Servicii <span class="sr-only"></span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="profile.php">Contul Meu <span class="sr-only"></span></a> </li>
 
                         <?php
-						if(empty($_SESSION["user_id"]))
-							{
-								echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
-							  <li class="nav-item"><a href="services.php" class="nav-link active">Register</a> </li>';
-							}
-						else
-							{
-									
-									
-										echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-									echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
-							}
+                        if (empty($_SESSION["user_id"])) {
+                            echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
+							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
+                        } else {
 
-						?>
-                       
+
+                            echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Comenzile mele</a> </li>';
+                            echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                        }
+
+                        ?>
+
                     </ul>
                 </div>
             </div>
@@ -65,7 +75,7 @@ session_start();
                 </ul>
             </div>
         </div>
-        <div class="inner-page-hero bg-image" data-image-src="images/img/pimg.jpg">
+        <div class="inner-page-hero bg-image" data-image-src="images/img/img6.jpg">
             <div class="container"> </div>
         </div>
         <div class="result-show">
@@ -83,18 +93,17 @@ session_start();
                     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
                         <div class="bg-gray restaurant-entry">
                             <div class="row">
-                                <?php $ress= mysqli_query($db,"select * from services");
-									      while($rows=mysqli_fetch_array($ress))
-										  {
-													
-						
-													 echo' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
+                                <?php $ress = mysqli_query($db, "select * from services");
+                                while ($rows = mysqli_fetch_array($ress)) {
+
+
+                                    echo ' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
 															<div class="entry-logo">
-																<a class="img-fluid" href="wines.php?service_id='.$rows['service_id'].'" > <img src="admin/Res_img/'.$rows['image'].'" alt="Food logo"></a>
+																<a class="img-fluid" href="wines.php?service_id=' . $rows['service_id'] . '" > <img src="admin/Res_img/' . $rows['image'] . '" alt="Food logo"></a>
 															</div>
 															<!-- end:Logo -->
 															<div class="entry-dscr">
-																<h5><a href="wines.php?service_id='.$rows['service_id'].'" >'.$rows['title'].'</a></h5> <span>'.$rows[''].'</span>
+																<h5><a href="wines.php?service_id=' . $rows['service_id'] . '" >' . $rows['title'] . '</a></h5> <span>' . $rows[''] . '</span>
 																
 															</div>
 															<!-- end:Entry description -->
@@ -104,14 +113,14 @@ session_start();
 																<div class="right-content bg-white">
 																	<div class="right-review">
 																		
-																		<a href="wines.php?service_id='.$rows['service_id'].'" class="btn btn-purple">View Menu</a> </div>
+																		<a href="wines.php?service_id=' . $rows['service_id'] . '" class="btn btn-purple">View Menu</a> </div>
 																</div>
 																<!-- end:right info -->
 															</div>';
-										  }
-						
-						
-						?>
+                                }
+
+
+                                ?>
 
                             </div>
 

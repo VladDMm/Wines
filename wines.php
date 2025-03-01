@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include("connection/connect.php"); 
+include("connection/connect.php");
 error_reporting(0);
 session_start();
 
-include_once 'product-action.php'; 
+include_once 'product-action.php';
 
 ?>
 
@@ -22,6 +22,42 @@ include_once 'product-action.php';
     <link href="css/animsition.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        @media (max-width: 768px) {
+            .widget-cart {
+
+                display: block !important;
+                /* Asigură că nu este ascuns */
+                width: 100%;
+                /* Face coșul să ocupe întreaga lățime */
+                margin-top: 20px;
+                /* Adaugă un spațiu pentru claritate */
+            }
+
+            .menu-widget {
+                order: 1;
+                /* Meniul apare primul */
+            }
+
+            .row {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .widget-body {
+                padding: 10px;
+            }
+
+            .navbar-toggler {
+                font-size: 24px;
+                padding: 5px 10px;
+            }
+
+            .navbar-brand img {
+                width: 40%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -33,26 +69,23 @@ include_once 'product-action.php';
                 <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/logo.png" alt="" width="18%"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
-                    <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link active" href="index.php">Acasă <span class="sr-only">(current)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="services.php">Servicii <span class="sr-only"></span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="profile.php">Contul Meu <span class="sr-only"></span></a> </li>
 
                         <?php
-						if(empty($_SESSION["user_id"]))
-							{
-								echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
-							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
-							}
-						else
-							{
-									
-									
-										echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-									echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
-							}
+                        if (empty($_SESSION["user_id"])) {
+                            echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
+							  <li class="nav-item"><a href="registration.php" class="nav-link active">Înregistrare</a> </li>';
+                        } else {
 
-						?>
-                
+
+                            echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Comenzile mele</a> </li>';
+                            echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                        }
+
+                        ?>
+
                     </ul>
                 </div>
             </div>
@@ -70,32 +103,33 @@ include_once 'product-action.php';
                 </ul>
             </div>
         </div>
-        <?php $ress= mysqli_query($db,"select * from services where service_id='$_GET[service_id]'");
-									     $rows=mysqli_fetch_array($ress);
-                                         $service_id = $_GET['service_id'];
+        <?php $ress = mysqli_query($db, "select * from services where service_id='$_GET[service_id]'");
+        $rows = mysqli_fetch_array($ress);
+        $service_id = $_GET['service_id'];
 
-                                         // Obținem detaliile serviciului selectat
-                                         $ress = mysqli_query($db, "SELECT * FROM services WHERE service_id='$service_id'");
-                                         $rows = mysqli_fetch_array($ress);
-                                         
-                                         // Dacă acest serviciu aparține de servicii turistice, afișăm datele din tabelul tourism
-                                         if ($rows['title'] == 'Servicii Turistice') { 
-                                             $tourism_res = mysqli_query($db, "SELECT * FROM tourism WHERE service_id='$service_id'");
-                                             $tourism_data = mysqli_fetch_array($tourism_res);
-                                         }
-                                         
-										  ?>
-                                          
-        <section class="inner-page-hero bg-image" data-image-src="images/img/restrrr.png">
+        // Obținem detaliile serviciului selectat
+        $ress = mysqli_query($db, "SELECT * FROM services WHERE service_id='$service_id'");
+        $rows = mysqli_fetch_array($ress);
+
+        // Dacă acest serviciu aparține de servicii turistice, afișăm datele din tabelul tourism
+        if ($rows['title'] == 'Servicii Turistice') {
+            $tourism_res = mysqli_query($db, "SELECT * FROM tourism WHERE service_id='$service_id'");
+            $tourism_data = mysqli_fetch_array($tourism_res);
+        }
+
+
+        ?>
+
+        <section class="inner-page-hero bg-image" data-image-src="images/img/img3.jpg">
             <div class="profile">
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12  col-md-4 col-lg-4 profile-img">
                             <div class="image-wrap">
-                                <figure><?php echo '<img src="admin/Res_img/'.$rows['image'].'" alt="Wines logo">'; ?></figure>
+                                <figure><?php echo '<img src="admin/Res_img/' . $rows['image'] . '" alt="Wines logo">'; ?></figure>
                             </div>
                         </div>
-                      
+
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 profile-desc">
                             <div class="pull-left right-text white-txt">
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
@@ -110,7 +144,7 @@ include_once 'product-action.php';
         </section>
         <div class="breadcrumb">
             <div class="container">
-                
+
             </div>
         </div>
         <div class="container m-t-30">
@@ -130,34 +164,33 @@ include_once 'product-action.php';
                             <div class="widget-body">
                                 <?php
 
-$item_total = 0;
+                                $item_total = 0;
 
-foreach ($_SESSION["cart_item"] as $item)  
-{
-?>
+                                foreach ($_SESSION["cart_item"] as $item) {
+                                ?>
 
-                                <div class="title-row">
-                                 
-                                    <?php echo $item["title"]; ?>
-                                    <a href="wines.php?service_type=<?php echo $item['service_type']; ?>&action=remove&item_id=<?php echo $item['item_id']; ?>">
-                                        <i class="fa fa-trash pull-right"></i></a>
-                                </div>
+                                    <div class="title-row">
 
-                                <div class="form-group row no-gutter">
-                                    <div class="col-xs-8">
-                                        <input type="text" class="form-control b-r-0" value=<?php echo "$".$item["price"]; ?> readonly id="exampleSelect1">
-
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <input class="form-control" type="text" readonly value='<?php echo $item["quantity"]; ?>' id="example-number-input">
+                                        <?php echo $item["title"]; ?>
+                                        <a href="wines.php?service_type=<?php echo $item['service_type']; ?>&action=remove&item_id=<?php echo $item['item_id']; ?>">
+                                            <i class="fa fa-trash pull-right"></i></a>
                                     </div>
 
-                                </div>
+                                    <div class="form-group row no-gutter">
+                                        <div class="col-xs-8">
+                                            <input type="text" class="form-control b-r-0" value=<?php echo "MDL" . $item["price"]; ?> readonly id="exampleSelect1">
+
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input class="form-control" type="text" readonly value='<?php echo $item["quantity"]; ?>' id="example-number-input">
+                                        </div>
+
+                                    </div>
 
                                 <?php
-$item_total += ($item["price"]*$item["quantity"]); 
-}
-?>
+                                    $item_total += ($item["price"] * $item["quantity"]);
+                                }
+                                ?>
                             </div>
                         </div>
 
@@ -166,23 +199,22 @@ $item_total += ($item["price"]*$item["quantity"]);
                         <div class="widget-body">
                             <div class="price-wrap text-xs-center">
                                 <p>TOTAL</p>
-                                <h3 class="value"><strong><?php echo "$".$item_total; ?></strong></h3>
-                                <p>Free Delivery!</p>
+                                <h3 class="value"><strong><?php echo "MDL " . $item_total; ?></strong></h3>
+                                <p>Livrare gratuită!</p>
                                 <?php
-                                        if($item_total==0){
-                                        ?>
+                                if ($item_total == 0) {
+                                ?>
 
 
-                                <a href="checkout.php?service_id=<?php echo $_GET['service_id'];?>&action=check" class="btn btn-danger btn-lg disabled">Checkout</a>
+                                    <a href="checkout.php?service_id=<?php echo $_GET['service_id']; ?>&action=check" class="btn btn-danger btn-lg disabled">Checkout</a>
 
                                 <?php
-                                        }
-                                        else{   
-                                        ?>
-                                <a href="checkout.php?service_id=<?php echo $_GET['service_id'];?>&action=check" class="btn btn-success btn-lg active">Checkout</a>
-                                <?php   
-                                        }
-                                        ?>
+                                } else {
+                                ?>
+                                    <a href="checkout.php?service_id=<?php echo $_GET['service_id']; ?>&action=check" class="btn btn-success btn-lg active">Checkout</a>
+                                <?php
+                                }
+                                ?>
 
                             </div>
                         </div>
@@ -204,99 +236,93 @@ $item_total += ($item["price"]*$item["quantity"]);
                             <div class="clearfix"></div>
                         </div>
                         <div class="collapse in" id="popular2">
-                            <?php  
+                            <?php
                             // Dacă acest serviciu aparține de servicii turistice, afișăm datele din tabelul tourism
-                            if ($rows['title'] == 'Servicii Turistice') { 
+                            if ($rows['title'] == 'Servicii Turistice') {
 
                                 $stmt = $db->prepare("select * from tourism where service_id='$_GET[service_id]'");
-									$stmt->execute();
-									$products = $stmt->get_result();
-									if (!empty($products)) 
-									{
-									foreach($products as $product)
-										{ ?>
+                                $stmt->execute();
+                                $products = $stmt->get_result();
+                                if (!empty($products)) {
+                                    foreach ($products as $product) { ?>
 
-                            <div class="food-item">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-8">
-                                       <!--<form method="post" action='wines.php?service_id=<?php echo $_GET['service_id'];?>&action=add&t_id=<?php echo $product['t_id']; ?>'>-->
-                                        <form method="post" action='wines.php?service_id=<?php echo $_GET['service_id'];?>&action=add&service_type=tourism&item_id=<?php echo $product['t_id']; ?>'>
+                                        <div class="food-item">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-lg-8">
+                                                    <!--<form method="post" action='wines.php?service_id=<?php echo $_GET['service_id']; ?>&action=add&t_id=<?php echo $product['t_id']; ?>'>-->
+                                                    <form method="post" action='wines.php?service_id=<?php echo $_GET['service_id']; ?>&action=add&service_type=tourism&item_id=<?php echo $product['t_id']; ?>'>
 
-                                            <div class="rest-logo pull-left">
-                                                <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="admin/Res_img/dishes/'.$product['img'].'" alt="logo">'; ?></a>
+                                                        <div class="rest-logo pull-left">
+                                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="admin/Res_img/dishes/' . $product['img'] . '" alt="logo">'; ?></a>
+                                                        </div>
+
+                                                        <div class="rest-descr">
+                                                            <h6><a href="#"><?php echo $product['title']; ?></a></h6>
+                                                            <p> <?php echo $product['slogan']; ?></p>
+                                                        </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
+                                                    <div class="price-container" style="display: flex; flex-direction: column; align-items: start;">
+                                                        <span class="price">MDL <?php echo $product['price']; ?></span>
+                                                        <input class="b-r-0" type="text" name="quantity" style="margin-left:30px;" value="1" size="2" />
+                                                        <span class="pers-count">Max Persoane: <?php echo $product['pers_count']; ?></span>
+                                                        <input class="b-r-0" type="text" name="pers_count" style="margin-left:30px; margin-bottom: 5px" value="1" size="2" />
+                                                    </div>
+
+                                                    <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add To Cart" />
+
+
+                                                </div>
+                                                </form>
                                             </div>
 
-                                            <div class="rest-descr">
-                                                <h6><a href="#"><?php echo $product['title']; ?></a></h6>
-                                                <p> <?php echo $product['slogan']; ?></p>
-                                            </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
-                                    <div class="price-container" style="display: flex; flex-direction: column; align-items: start;">
-                                    <span class="price">$<?php echo $product['price']; ?></span>
-                                    <input class="b-r-0" type="text" name="quantity" style="margin-left:30px;" value="1" size="2" />
-                                    <span class="pers-count">Max Persoane: <?php echo $product['pers_count']; ?></span>
-                                    <input class="b-r-0" type="text" name="pers_count" style="margin-left:30px; margin-bottom: 5px" value="1" size="2" />
-                                    </div>
-                                    
-                                    <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add To Cart" />
+                                        </div>
 
-                                        
-                                    </div>
-                                    </form>
-                                </div>
 
-                            </div>
-                         
-
-                            <?php
-									  }
+                                    <?php
                                     }
-                                
-                            }
-                            else
-                            {
+                                }
+                            } else {
                                 $stmt = $db->prepare("select * from wines where service_id='$_GET[service_id]'");
                                 $stmt->execute();
                                 $products = $stmt->get_result();
-                                if (!empty($products)) 
-                                {
-                                foreach($products as $product)
-                                    { ?>
+                                if (!empty($products)) {
+                                    foreach ($products as $product) { ?>
 
-                        <div class="food-item">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-lg-8">
-                                <form method="post" action='wines.php?service_id=<?php echo $_GET['service_id'];?>&action=add&service_type=wines&item_id=<?php echo $product['w_id']; ?>'>
-
-                                  <!--  <form method="post" action='wines.php?service_id=<?php echo $_GET['service_id'];?>&action=add&id=<?php echo $product['w_id']; ?>'>-->
-                                        <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="admin/Res_img/dishes/'.$product['img'].'" alt="Food logo">'; ?></a>
+                                        <div class="container">
+                                            <div class="food-item">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-lg-8">
+                                                        <form method="post" action='wines.php?service_id=<?php echo $_GET['service_id']; ?>&action=add&service_type=wines&item_id=<?php echo $product['w_id']; ?>'>
+                                                            <div class="rest-logo pull-left">
+                                                                <a class="restaurant-logo pull-left" href="#">
+                                                                    <?php echo '<img src="admin/Res_img/dishes/' . $product['img'] . '" alt="Food logo">'; ?>
+                                                                </a>
+                                                            </div>
+                                                            <div class="rest-descr">
+                                                                <h6><a href="#"><?php echo $product['title']; ?></a></h6>
+                                                                <p><?php echo $product['slogan']; ?></p>
+                                                            </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
+                                                        <span class="price pull-left">MDL <?php echo $product['price']; ?></span>
+                                                        <input class="b-r-0" type="text" name="quantity" style="margin-left:30px;" value="1" size="2" />
+                                                        <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add To Cart" />
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="rest-descr">
-                                            <h6><a href="#"><?php echo $product['title']; ?></a></h6>
-                                            <p> <?php echo $product['slogan']; ?></p>
-                                        </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
-                                    <span class="price pull-left">$<?php echo $product['price']; ?></span>
-                                    <input class="b-r-0" type="text" name="quantity" style="margin-left:30px;" value="1" size="2" />
-                                    <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add To Cart" />
-                                </div>
-                                </form>
-                            </div>
 
-                        </div>
-                     
 
-                        <?php
-                                  }
+                            <?php
+                                    }
                                 }
                             }
-									
-									
-								?>
+
+
+                            ?>
 
 
 
@@ -310,7 +336,7 @@ $item_total += ($item["price"]*$item["quantity"]);
             </div>
 
         </div>
-   
+
 
         <?php include "include/footer.php" ?>
 
@@ -321,7 +347,7 @@ $item_total += ($item["price"]*$item["quantity"]);
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn theme-btn">Add To Cart</button>

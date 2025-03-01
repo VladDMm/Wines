@@ -25,9 +25,9 @@ if (isset($_GET['order_del'])) {
     }
 
     // stergem comanda din db
+    mysqli_query($db, "DELETE FROM user_orders_detailed WHERE o_id = '$order_id'");
     mysqli_query($db, "DELETE FROM users_orders WHERE o_id = '$order_id'");
-
-
+    
     header("location:all_orders.php");
     exit();
 }

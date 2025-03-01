@@ -1,12 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include("connection/connect.php");  
-error_reporting(0);  
-session_start(); 
+include("connection/connect.php");
+error_reporting(0);
+session_start();
 
 ?>
+
 <head>
     <meta charset="utf-8">
     <meta charset="UTF-8">
@@ -22,7 +22,63 @@ session_start();
     <link href="css/animsition.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+    
+
+    .food-item {
+        display: flex;
+        flex-direction: column;
+        width: 30%; /* Ajustează pentru a evita spațiile mari */
+        min-height: 100%; /* Asigură înălțimi egale */
+        box-sizing: border-box;
+    }
+
+    .food-item-wrap {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid #eaebeb;
+        border-radius: 2px;
+        overflow: hidden;
+        background: #fafaf8;
+        padding: 10px;
+    }
+
+    .figure-wrap {
+        width: 100%;
+        height: 500px; /* Setează o înălțime fixă pentru toate imaginile */
+        background-size: cover; /* Se asigură că întreaga imagine este vizibilă */
+        background-position: center;
+    }
+
+    .content {
+        flex-grow: 1; /* Face conținutul să se întindă uniform */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .price-btn-block {
+        margin-top: auto; /* Aliniază butoanele la bază */
+    }
+    @media (max-width: 768px) {
+        .food-item {
+            width: 100%; /* Pe ecrane mici, ocupă toată lățimea */
+        }
+        .navbar-toggler {
+        font-size: 24px;
+        padding: 5px 10px;
+    }
+
+    .navbar-brand img {
+        width: 40%;
+    }
+    }
+</style>
+
 </head>
+
 <body class="home">
     <header id="header" class="header-scroll top-header headrom">
         <nav class="navbar navbar-dark">
@@ -31,24 +87,22 @@ session_start();
                 <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/logo.png" alt="" width="18%"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
-                    <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link active" href="index.php">Acasă <span class="sr-only">(current)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="services.php">Servicii <span class="sr-only"></span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="profile.php">Contul Meu <span class="sr-only"></span></a> </li>
                         <?php
-						if(empty($_SESSION["user_id"])) // if user is not login
-							{
-								echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
-							  <li class="nav-item"><a href="services.php" class="nav-link active">Register</a> </li>';
-							}
-						else
-							{
+                        if (empty($_SESSION["user_id"])) // if user is not login
+                        {
+                            echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
+							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
+                        } else {
 
-									
-									echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-									echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
-							}
 
-						?>
+                            echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Comenzile mele</a> </li>';
+                            echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                        }
+
+                        ?>
 
                     </ul>
 
@@ -77,7 +131,7 @@ session_start();
                         </svg>
                         <h4><span style="color:white;">1. </span>Alege Serviciul</h4>
                     </div>
-          
+
                     <div class="step-item step2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewbox="0 0 380.721 380.721">
                             <g fill="#FFF">
@@ -106,28 +160,56 @@ session_start();
                 <h2>Produse Populare în această lună</h2>
                 <p class="lead"></p>
             </div>
-            <div class="row">
+            <div class="row" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: stretch;">
+            
+            <!-- <div class="figure-wrap bg-image" style="width: 100%; height: 200px; background-size: cover; background-position: center; background-image: url(' . "'" . $img_url . "'" . ');"></div>
+                -->
+    <?php
+    $query_res = mysqli_query($db, "SELECT * FROM wines LIMIT 6");
+    while ($r = mysqli_fetch_array($query_res)) {
+        $img_url = "admin/Res_img/dishes/" . $r['img']; // Construim corect calea imaginii
+        echo '  
+        <div class="col-xs-12 col-sm-6 col-md-4 food-item" style="display: flex;">
+            <div class="food-item-wrap" style="display: flex; flex-direction: column; justify-content: space-between; width: 100%; height: 100%; border: 1px solid #eaebeb; border-radius: 2px; overflow: hidden; margin-bottom: 30px; background: #fafaf8; padding: 15px;">
+                <div class="figure-wrap bg-image" data-image-src="admin/Res_img/dishes/' . $r['img'] . '"></div>
+                    <div class="content" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <h5><a href="wines.php?service_id=' . $r['service_id'] . '">' . $r['title'] . '</a></h5>
+                    <div class="product-name">' . $r['slogan'] . '</div>
+                    <div class="price-btn-block" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="price">MDL ' . $r['price'] . '</span> 
+                        <a href="wines.php?service_id=' . $r['service_id'] . '" class="btn theme-btn-dash">Order Now</a> 
+                    </div>
+                </div>
+            </div>
+        </div>';
+    }
+    ?>
+</div>
+<!-- 
+            <div class="row" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: stretch;">
 
-                <?php 					
-						$query_res= mysqli_query($db,"select * from wines LIMIT 6"); 
-                                while($r=mysqli_fetch_array($query_res))
-                                {
+                <?php
+                $query_res = mysqli_query($db, "select * from wines LIMIT 6");
+                while ($r = mysqli_fetch_array($query_res)) {
 
-                                        
-                                    echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                                            <div class="food-item-wrap">
-                                                <div class="figure-wrap bg-image" data-image-src="admin/Res_img/dishes/'.$r['img'].'"></div>
+
+                    echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item"">
+                                            <div class="food-item-wrap" >
+                                                <div class="figure-wrap bg-image" data-image-src="admin/Res_img/dishes/' . $r['img'] . '"></div>
                                                 <div class="content">
-                                                    <h5><a href="wines.php?service_id='.$r['service_id'].'">'.$r['title'].'</a></h5>
-                                                    <div class="product-name">'.$r['slogan'].'</div>
-                                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="wines.php?service_id='.$r['service_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+                                                    <h5><a href="wines.php?service_id=' . $r['service_id'] . '">' . $r['title'] . '</a></h5>
+                                                    <div class="product-name">' . $r['slogan'] . '</div>
+                                                    <div class="price-btn-block"> <span class="price">MDL ' . $r['price'] . '</span> <a href="wines.php?service_id=' . $r['service_id'] . '" class="btn theme-btn-dash pull-right">Order Now</a> </div>
                                                 </div>
                                                 
                                             </div>
-                                    </div>'  ;                                  
-                                }	
-						?>
-            </div>
+                                    </div>';
+                }
+                ?>
+            </div> -->
+            
+           
+
         </div>
     </section>
     <section class="how-it-works">
@@ -172,7 +254,7 @@ session_start();
                                 </svg>
                             </div>
                             <h3>Ridică la Livrare</h3>
-                            <p>I produsul tău la livrare </p>
+                            <p>Ia produsul tău la livrare </p>
                         </div>
                     </div>
                 </div>
@@ -197,13 +279,12 @@ session_start();
                         <nav class="primary pull-left">
                             <ul>
                                 <li><a href="#" class="selected" data-filter="*">toate</a> </li>
-                                <?php 
-									$res= mysqli_query($db,"select * from service_cat");
-									      while($row=mysqli_fetch_array($res))
-										  {
-											echo '<li><a href="#" data-filter=".'.$row['c_name'].'"> '.$row['c_name'].'</a> </li>';
-										  }
-									?>
+                                <?php
+                                $res = mysqli_query($db, "select * from service_cat");
+                                while ($row = mysqli_fetch_array($res)) {
+                                    echo '<li><a href="#" data-filter=".' . $row['c_name'] . '"> ' . $row['c_name'] . '</a> </li>';
+                                }
+                                ?>
 
                             </ul>
                         </nav>
@@ -216,23 +297,22 @@ session_start();
                 <div class="restaurant-listing">
 
 
-                    <?php  
-						$ress= mysqli_query($db,"select * from services");  
-									      while($rows=mysqli_fetch_array($ress))
-										  {
-													
-													$query= mysqli_query($db,"select * from service_cat where c_id='".$rows['c_id']."' ");
-													 $rowss=mysqli_fetch_array($query);
-						
-													 echo ' <div class="col-xs-12 col-sm-12 col-md-6 single-restaurant all '.$rowss['c_name'].'">
+                    <?php
+                    $ress = mysqli_query($db, "select * from services");
+                    while ($rows = mysqli_fetch_array($ress)) {
+
+                        $query = mysqli_query($db, "select * from service_cat where c_id='" . $rows['c_id'] . "' ");
+                        $rowss = mysqli_fetch_array($query);
+
+                        echo ' <div class="col-xs-12 col-sm-12 col-md-6 single-restaurant all ' . $rowss['c_name'] . '">
 														<div class="restaurant-wrap">
 															<div class="row">
 																<div class="col-xs-12 col-sm-3 col-md-12 col-lg-3 text-xs-center">
-																	<a class="restaurant-logo" href="wines.php?service_id='.$rows['service_id'].'" > <img src="admin/Res_img/'.$rows['image'].'" alt="Restaurant logo"> </a>
+																	<a class="restaurant-logo" href="wines.php?service_id=' . $rows['service_id'] . '" > <img src="admin/Res_img/' . $rows['image'] . '" alt="Restaurant logo"> </a>
 																</div>
 													
 																<div class="col-xs-12 col-sm-9 col-md-12 col-lg-9">
-																	<h5><a href="wines.php?service_id='.$rows['service_id'].'" >'.$rows['title'].'</a></h5>
+																	<h5><a href="wines.php?service_id=' . $rows['service_id'] . '" >' . $rows['title'] . '</a></h5>
 																</div>
 													
 															</div>
@@ -240,10 +320,10 @@ session_start();
 														</div>
 												
 													</div>';
-										  }
-						
-						
-						?>
+                    }
+
+
+                    ?>
                 </div>
             </div>
 

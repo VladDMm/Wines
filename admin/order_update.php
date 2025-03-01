@@ -20,7 +20,7 @@ $query = mysqli_query($db, "INSERT INTO remark(frm_id, status, remark) VALUES('$
 
 if ($query) {
     // Actualizare status comanda in tabelul users_orders
-    $sql = mysqli_query($db, "UPDATE users_orders SET status='$status' WHERE o_id='$form_id'");
+    $sql = mysqli_query($db, "UPDATE user_orders_detailed SET status='$status' WHERE o_id='$form_id'");
     
     if ($sql) {
         echo "Statusul comenzii și remarcul au fost actualizate cu succes.";

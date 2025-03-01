@@ -2,64 +2,49 @@
 <html lang="en">
 <?php
 
-session_start(); 
-error_reporting(0); 
-include("connection/connect.php"); 
-if(isset($_POST['submit'] )) 
-{
-     if(empty($_POST['firstname']) || 
-   	    empty($_POST['lastname'])|| 
-		empty($_POST['email']) ||  
-		empty($_POST['phone'])||
-		empty($_POST['password'])||
-		empty($_POST['cpassword']) ||
-		empty($_POST['cpassword']))
-		{
-			$message = "Toate Câmpurile Trebuie Completate!";
-		}
-	else
-	{
-	
-	$check_username= mysqli_query($db, "SELECT username FROM users where username = '".$_POST['username']."' ");
-	$check_email = mysqli_query($db, "SELECT email FROM users where email = '".$_POST['email']."' ");
-		
+session_start();
+error_reporting(0);
+include("connection/connect.php");
+if (isset($_POST['submit'])) {
+    if (
+        empty($_POST['firstname']) ||
+        empty($_POST['lastname']) ||
+        empty($_POST['email']) ||
+        empty($_POST['phone']) ||
+        empty($_POST['password']) ||
+        empty($_POST['cpassword']) ||
+        empty($_POST['cpassword'])
+    ) {
+        $message = "Toate Câmpurile Trebuie Completate!";
+    } else {
 
-	
-	if($_POST['password'] != $_POST['cpassword']){  
-       	
-          echo "<script>alert('Password not match');</script>"; 
-    }
-	elseif(strlen($_POST['password']) < 6)  
-	{
-      echo "<script>alert('Password Must be >=6');</script>"; 
-	}
-	elseif(strlen($_POST['phone']) < 10)  
-	{
-      echo "<script>alert('Invalid phone number!');</script>"; 
-	}
+        $check_username = mysqli_query($db, "SELECT username FROM users where username = '" . $_POST['username'] . "' ");
+        $check_email = mysqli_query($db, "SELECT email FROM users where email = '" . $_POST['email'] . "' ");
 
-    elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
-    {
-          echo "<script>alert('Invalid email address please type a valid email!');</script>"; 
-    }
-	elseif(mysqli_num_rows($check_username) > 0) 
-     {
-       echo "<script>alert('Username Already exists!');</script>"; 
-     }
-	elseif(mysqli_num_rows($check_email) > 0) 
-     {
-       echo "<script>alert('Email Already exists!');</script>"; 
-     }
-	else{
-       
-	 
-	$mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('".$_POST['username']."','".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['email']."','".$_POST['phone']."','".md5($_POST['password'])."','".$_POST['address']."')";
-	mysqli_query($db, $mql);
-	
-		 header("refresh:0.1;url=login.php");
-    }
-	}
 
+
+        if ($_POST['password'] != $_POST['cpassword']) {
+
+            echo "<script>alert('Parola nu corespunde');</script>";
+        } elseif (strlen($_POST['password']) < 6) {
+            echo "<script>alert('Parola mai mare de 6 caractere');</script>";
+        } elseif (strlen($_POST['phone']) < 10) {
+            echo "<script>alert('Număr invalid!');</script>";
+        } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            echo "<script>alert('Introdu un email valid!');</script>";
+        } elseif (mysqli_num_rows($check_username) > 0) {
+            echo "<script>alert('Username deja există!');</script>";
+        } elseif (mysqli_num_rows($check_email) > 0) {
+            echo "<script>alert('Email deja există!');</script>";
+        } else {
+
+
+            $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('" . $_POST['username'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['email'] . "','" . $_POST['phone'] . "','" . md5($_POST['password']) . "','" . $_POST['address'] . "')";
+            mysqli_query($db, $mql);
+
+            header("refresh:0.1;url=login.php");
+        }
+    }
 }
 
 
@@ -78,7 +63,20 @@ if(isset($_POST['submit'] ))
     <link href="css/animsition.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+         @media (max-width: 768px) {
+            .navbar-toggler {
+                font-size: 24px;
+                padding: 5px 10px;
+            }
+
+            .navbar-brand img {
+                width: 40%;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <div style=" background-image: url('images/img/pimg.jpg');">
         <header id="header" class="header-scroll top-header headrom">
@@ -88,24 +86,21 @@ if(isset($_POST['submit'] ))
                     <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/logo.png" alt="" width="18%"> </a>
                     <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                         <ul class="nav navbar-nav">
-                        <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
-                        <li class="nav-item"> <a class="nav-link active" href="services.php">Servicii <span class="sr-only"></span></a> </li>
-                        <li class="nav-item"> <a class="nav-link active" href="profile.php">Contul Meu <span class="sr-only"></span></a> </li>
+                            <li class="nav-item"> <a class="nav-link active" href="index.php">Acasă <span class="sr-only">(current)</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link active" href="services.php">Servicii <span class="sr-only"></span></a> </li>
+                            <li class="nav-item"> <a class="nav-link active" href="profile.php">Contul Meu <span class="sr-only"></span></a> </li>
                             <?php
-						if(empty($_SESSION["user_id"]))
-							{
-								echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
+                            if (empty($_SESSION["user_id"])) {
+                                echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
 							  <li class="nav-item"><a href="services.php" class="nav-link active">Register</a> </li>';
-							}
-						else
-							{
-									
-									
-										echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-									echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
-							}
+                            } else {
 
-						?>
+
+                                echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Comenzile mele</a> </li>';
+                                echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                            }
+
+                            ?>
 
                         </ul>
                     </div>
@@ -133,31 +128,31 @@ if(isset($_POST['submit'] ))
                                                 <input class="form-control" type="text" name="username" id="example-text-input">
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="exampleInputEmail1">First Name</label>
+                                                <label for="exampleInputEmail1">Nume</label>
                                                 <input class="form-control" type="text" name="firstname" id="example-text-input">
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="exampleInputEmail1">Last Name</label>
+                                                <label for="exampleInputEmail1">Prenume</label>
                                                 <input class="form-control" type="text" name="lastname" id="example-text-input-2">
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="exampleInputEmail1">Email Address</label>
+                                                <label for="exampleInputEmail1">Adresa Email</label>
                                                 <input type="text" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="exampleInputEmail1">Phone number</label>
+                                                <label for="exampleInputEmail1">Număr Telefon</label>
                                                 <input class="form-control" type="text" name="phone" id="example-tel-input-3">
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="exampleInputPassword1">Password</label>
+                                                <label for="exampleInputPassword1">Parola</label>
                                                 <input type="password" class="form-control" name="password" id="exampleInputPassword1">
                                             </div>
                                             <div class="form-group col-sm-6">
-                                                <label for="exampleInputPassword1">Confirm password</label>
+                                                <label for="exampleInputPassword1">Confirmă parola</label>
                                                 <input type="password" class="form-control" name="cpassword" id="exampleInputPassword2">
                                             </div>
                                             <div class="form-group col-sm-12">
-                                                <label for="exampleTextarea">Delivery Address</label>
+                                                <label for="exampleTextarea">Adresa livrare</label>
                                                 <textarea class="form-control" id="exampleTextarea" name="address" rows="3"></textarea>
                                             </div>
 
@@ -192,4 +187,5 @@ if(isset($_POST['submit'] ))
         <script src="js/headroom.js"></script>
         <script src="js/foodpicky.min.js"></script>
 </body>
+
 </html>

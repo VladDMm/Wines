@@ -2,7 +2,8 @@
 <html lang="en">
 <?php
 include("../connection/connect.php");
-error_reporting(0);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 
 ?>
@@ -146,28 +147,30 @@ session_start();
                                             <tr>
                                                 <th>User</th>
                                                 <th>Title</th>
-                                                <th>Quantity</th>
+                                                <th>Cantitatea</th>
                                                 <th>Mesaj</th>
                                                 <th>Video</th>
-                                                <th>Price</th>
-                                                <th>Address</th>
+                                                <th>Preţ</th>
+                                                <th>Adresa</th>
                                                 <th>QR Code Mesaj</th>
                                                 <th>QR Code Video</th>
+                                                <th>Tip ambalaj</th>
                                                 <th>Status</th>
                                                 <th>Reg-Date</th>
-                                                <th>Action</th>
+                                                <th>Acţiune</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
 
                                         <?php
-                                            $sql = "SELECT users.*, users_orders.* FROM users 
-                                                    INNER JOIN users_orders ON users.u_id = users_orders.u_id";
+                                            $sql = "SELECT users.*, users_orders.*, user_orders_detailed.* FROM users 
+                                                    INNER JOIN users_orders ON users.u_id = users_orders.u_id
+                                                    INNER JOIN user_orders_detailed ON user_orders_detailed.o_id = users_orders.o_id";
                                             $query = mysqli_query($db, $sql);
 
                                             if (!mysqli_num_rows($query) > 0) {
-                                                echo '<td colspan="8"><center>No Orders</center></td>';
+                                                echo '<td colspan="13"><center>Nu sunt comenzi</center></td>';
                                             } else {
                                                 while ($rows = mysqli_fetch_array($query)) {
                                                     ?>
@@ -177,7 +180,7 @@ session_start();
                                                         <td><?php echo $rows['quantity']; ?></td>
                                                         <td><?php echo $rows['message']; ?></td>
                                                         <td><?php echo $rows['video_link']; ?></td>
-                                                        <td>$<?php echo $rows['price']; ?></td>
+                                                        <td><?php echo $rows['price']; ?> MDL</td>
                                                         <td><?php echo $rows['address']; ?></td>
 
                                                         <!-- QR Code for message -->
@@ -217,7 +220,7 @@ session_start();
                                                             }
                                                             ?>
                                                         </td>
-
+                                                        <td><?php echo $rows['tip_ambalaj'] ?></td>
                                                         <!-- Status buttons -->
                                                         <td>
                                                             <?php
@@ -241,7 +244,7 @@ session_start();
                                                             <a href="delete_orders.php?order_del=<?php echo $rows['o_id']; ?>" onclick="return confirm('Are you sure?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10">
                                                                 <i class="fa fa-trash-o" style="font-size:16px"></i>
                                                             </a>
-                                                            <a href="view_order.php?user_upd=<?php echo $rows['o_id']; ?>" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5">
+                                                            <a href="view_order.php?user_upd=<?php echo $rows['uod_id']; ?>" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
                                                         </td>

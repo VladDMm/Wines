@@ -217,7 +217,7 @@ if (isset($_POST['submit'])) {
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label">Preț </label>
-                                                                <input type="text" name="price" value="<?php echo $roww['price'];?>" class="form-control" placeholder="$">
+                                                                <input type="text" name="price" value="<?php echo $roww['price'];?>" class="form-control" placeholder="MDL">
                                                             </div>
                                                         </div>
 
