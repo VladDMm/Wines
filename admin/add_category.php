@@ -6,41 +6,33 @@ error_reporting(0);
 session_start();
 
 
-if(isset($_POST['submit'] ))
-{
-    if(empty($_POST['c_name']))
-		{
-			$error = '<div class="alert alert-danger alert-dismissible fade show">
+if (isset($_POST['submit'])) {
+    if (empty($_POST['c_name'])) {
+        $error = '<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>field Required!</strong>
 															</div>';
-		}
-	else
-	{
-		
-	$check_cat= mysqli_query($db, "SELECT c_name FROM service_cat where c_name = '".$_POST['c_name']."' ");
+    } else {
 
-	
-	
-	if(mysqli_num_rows($check_cat) > 0)
-     {
-    	$error = '<div class="alert alert-danger alert-dismissible fade show">
+        $check_cat = mysqli_query($db, "SELECT c_name FROM service_cat where c_name = '" . $_POST['c_name'] . "' ");
+
+
+
+        if (mysqli_num_rows($check_cat) > 0) {
+            $error = '<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>Category already exist!</strong>
 															</div>';
-     }
-	else{
-       
-	
-	$mql = "INSERT INTO service_cat(c_name) VALUES('".$_POST['c_name']."')";
-	mysqli_query($db, $mql);
-			$success = 	'<div class="alert alert-success alert-dismissible fade show">
+        } else {
+
+
+            $mql = "INSERT INTO service_cat(c_name) VALUES('" . $_POST['c_name'] . "')";
+            mysqli_query($db, $mql);
+            $success =     '<div class="alert alert-success alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																New Category Added Successfully.</br></div>';
-	
+        }
     }
-	}
-
 }
 
 
@@ -56,6 +48,81 @@ if(isset($_POST['submit'] ))
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* ======= Sidebar Styles ======= */
+        .left-sidebar {
+            width: 250px;
+            background-color: #f8f9fa;
+            /* O nuanță gri-deschis pentru contrast */
+            position: fixed;
+            height: 100vh;
+            padding-top: 20px;
+        }
+
+        /* Stilizare listă de navigație */
+        .left-sidebar .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .left-sidebar .sidebar-nav ul li {
+            padding: 10px 20px;
+        }
+
+        /* Link-urile din sidebar */
+        .left-sidebar .sidebar-nav ul li a {
+            text-decoration: none;
+            color: #333;
+            /* Gri închis pentru vizibilitate */
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Iconițele */
+        .left-sidebar .sidebar-nav ul li a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Efect la hover */
+        .left-sidebar .sidebar-nav ul li a:hover {
+            background-color: #1a252f;
+            /* Albastru închis */
+            color: white;
+        }
+
+        /* ======= Responsive Design ======= */
+        @media (max-width: 768px) {
+            .left-sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
 
 </head>
 
@@ -71,7 +138,7 @@ if(isset($_POST['submit'] ))
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="dashboard.php">
-                    <span><img src="images\logoadmin.png" style="max-width: 100px;" alt="homepage" class="dark-logo" /></span>
+                        <span><img src="images\logoadmin.png" style="max-width: 100px;" alt="homepage" class="dark-logo" /></span>
                     </a>
                 </div>
                 <div class="navbar-collapse">
@@ -106,11 +173,11 @@ if(isset($_POST['submit'] ))
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
                         <li class="nav-label">Log</li>
-                        <li> <a href="all_users.php"> <span><i class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                        <li> <a href="all_users.php"> <span><i class="fa fa-user f-s-20 "></i></span><span>Utilizatori</span></a></li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Servicii</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="all_restaurant.php">Toate Serviciile</a></li>
-                                <li><a href="add_category.php">Adaugă Categorie Serviciu</a></li>
+                                <li><a href="add_category.php">Adaugă Categorie</a></li>
                                 <li><a href="add_services.php">Adaugă Serviciu</a></li>
 
                             </ul>
@@ -134,7 +201,7 @@ if(isset($_POST['submit'] ))
         </div>
 
         <div class="page-wrapper">
-            
+
 
             <div class="container-fluid">
 
@@ -146,9 +213,9 @@ if(isset($_POST['submit'] ))
 
 
 
-                        <?php  
-									        echo $error;
-									        echo $success; ?>
+                        <?php
+                        echo $error;
+                        echo $success; ?>
 
 
 
@@ -204,35 +271,28 @@ if(isset($_POST['submit'] ))
                                     <tbody>
 
                                         <?php
-												$sql="SELECT * FROM service_cat order by c_id desc";
-												$query=mysqli_query($db,$sql);
-												
-													if(!mysqli_num_rows($query) > 0 )
-														{
-															echo '<td colspan="7"><center>No Categories-Data!</center></td>';
-														}
-													else
-														{				
-																	while($rows=mysqli_fetch_array($query))
-																		{
-																					
-																				
-																				
-																					echo ' <tr><td>'.$rows['c_id'].'</td>
-																								<td>'.$rows['c_name'].'</td>
-																								<td>'.$rows['date'].'</td>
+                                        $sql = "SELECT * FROM service_cat order by c_id desc";
+                                        $query = mysqli_query($db, $sql);
+
+                                        if (!mysqli_num_rows($query) > 0) {
+                                            echo '<td colspan="7"><center>No Categories-Data!</center></td>';
+                                        } else {
+                                            while ($rows = mysqli_fetch_array($query)) {
+
+
+
+                                                echo ' <tr><td>' . $rows['c_id'] . '</td>
+																								<td>' . $rows['c_name'] . '</td>
+																								<td>' . $rows['date'] . '</td>
 																								
-																									 <td><a href="delete_category.php?cat_del='.$rows['c_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-																									 <a href="update_category.php?cat_upd='.$rows['c_id'].'" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
+																									 <td><a href="delete_category.php?cat_del=' . $rows['c_id'] . '" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+																									 <a href="update_category.php?cat_upd=' . $rows['c_id'] . '" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
 																									</td></tr>';
-																					 
-																						
-																						
-																		}	
-														}
-												
-											
-											?>
+                                            }
+                                        }
+
+
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -19,6 +19,81 @@ session_start();
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* ======= Sidebar Styles ======= */
+        .left-sidebar {
+            width: 250px;
+            background-color: #f8f9fa;
+            /* O nuanță gri-deschis pentru contrast */
+            position: fixed;
+            height: 100vh;
+            padding-top: 20px;
+        }
+
+        /* Stilizare listă de navigație */
+        .left-sidebar .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .left-sidebar .sidebar-nav ul li {
+            padding: 10px 20px;
+        }
+
+        /* Link-urile din sidebar */
+        .left-sidebar .sidebar-nav ul li a {
+            text-decoration: none;
+            color: #333;
+            /* Gri închis pentru vizibilitate */
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Iconițele */
+        .left-sidebar .sidebar-nav ul li a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Efect la hover */
+        .left-sidebar .sidebar-nav ul li a:hover {
+            background-color: #1a252f;
+            /* Albastru închis */
+            color: white;
+        }
+
+        /* ======= Responsive Design ======= */
+        @media (max-width: 768px) {
+            .left-sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
 
 </head>
 
@@ -48,23 +123,6 @@ session_start();
                     <ul class="navbar-nav my-lg-0">
 
 
-
-                        <li class="nav-item dropdown">
-
-                            <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">Notifications</div>
-                                    </li>
-
-                                    <li>
-                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="images/bookingSystem/user-icn.png" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
@@ -88,11 +146,11 @@ session_start();
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
                         <li class="nav-label">Log</li>
-                        <li> <a href="all_users.php"> <span><i class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                        <li> <a href="all_users.php"> <span><i class="fa fa-user f-s-20 "></i></span><span>Utilizatori</span></a></li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Servicii</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="all_services.php">Toate Serviciile</a></li>
-                                <li><a href="add_category.php">Adaugă Categorie Serviciu</a></li>
+                                <li><a href="add_category.php">Adaugă Categorie</a></li>
                                 <li><a href="add_services.php">Adaugă Serviciu</a></li>
 
                             </ul>
@@ -145,9 +203,9 @@ session_start();
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>User</th>
-                                                <th>Quantity</th>
-                                                <th>Price</th>
-                                                <th>Address</th>
+                                                <th>Cantitatea totală</th>
+                                                <th>Preţ total</th>
+                                                <th>Adresa</th>
                                                 <th>Status</th>
                                                 <!-- <th>Action</th> -->
                                             </tr>
@@ -156,7 +214,7 @@ session_start();
 
 
                                             <?php
-                                             $sql = "SELECT users.*, users_orders.*, user_orders_detailed.* FROM users 
+                                            $sql = "SELECT users.*, users_orders.*, user_orders_detailed.* FROM users 
                                              INNER JOIN users_orders ON users.u_id = users_orders.u_id
                                              INNER JOIN user_orders_detailed ON user_orders_detailed.o_id = users_orders.o_id";
 
@@ -191,7 +249,7 @@ session_start();
                                                     // Adăugăm cantitatea și prețul la totalurile comenzilor cu același status
                                                     $users_data[$user_id][$order_status]['total_quantity'] += $rows['quantity'];
                                                     $users_data[$user_id][$order_status]['total_price'] += $rows['total_price'];
-                                                   // $users_data[$user_id][$order_status]['total_price'] += $rows['quantity'] * $rows['price'];
+                                                    // $users_data[$user_id][$order_status]['total_price'] += $rows['quantity'] * $rows['price'];
                                                 }
 
                                                 // Afișăm datele pentru fiecare utilizator

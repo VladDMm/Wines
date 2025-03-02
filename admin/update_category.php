@@ -1,41 +1,34 @@
                 <!DOCTYPE html>
                 <html lang="en">
                 <?php
-include("../connection/connect.php");
-error_reporting(0);
-session_start();
+                include("../connection/connect.php");
+                error_reporting(0);
+                session_start();
 
 
-if(isset($_POST['submit'] ))
-{
-    if(empty($_POST['c_name']))
-		{
-			$error = '<div class="alert alert-danger alert-dismissible fade show">
+                if (isset($_POST['submit'])) {
+                    if (empty($_POST['c_name'])) {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>field Required!</strong>
 															</div>';
-		}
-	else
-	{
-		
-	
-	
-	
-       
-	
-	$mql = "update service_cat set c_name ='$_POST[c_name]' where c_id='$_GET[cat_upd]'";
-	mysqli_query($db, $mql);
-			$success = 	'<div class="alert alert-success alert-dismissible fade show">
+                    } else {
+
+
+
+
+
+
+                        $mql = "update service_cat set c_name ='$_POST[c_name]' where c_id='$_GET[cat_upd]'";
+                        mysqli_query($db, $mql);
+                        $success =     '<div class="alert alert-success alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>Updated!</strong> Successfully.</br></div>';
-	
-    
-	}
-
-}
+                    }
+                }
 
 
-?>
+                ?>
 
                 <head>
                     <meta charset="utf-8">
@@ -48,6 +41,81 @@ if(isset($_POST['submit'] ))
                     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
                     <link href="css/helper.css" rel="stylesheet">
                     <link href="css/style.css" rel="stylesheet">
+                    <style>
+                        /* ======= Sidebar Styles ======= */
+                        .left-sidebar {
+                            width: 250px;
+                            background-color: #f8f9fa;
+                            /* O nuanță gri-deschis pentru contrast */
+                            position: fixed;
+                            height: 100vh;
+                            padding-top: 20px;
+                        }
+
+                        /* Stilizare listă de navigație */
+                        .left-sidebar .sidebar-nav ul {
+                            list-style: none;
+                            padding: 0;
+                        }
+
+                        .left-sidebar .sidebar-nav ul li {
+                            padding: 10px 20px;
+                        }
+
+                        /* Link-urile din sidebar */
+                        .left-sidebar .sidebar-nav ul li a {
+                            text-decoration: none;
+                            color: #333;
+                            /* Gri închis pentru vizibilitate */
+                            font-size: 16px;
+                            display: flex;
+                            align-items: center;
+                            transition: all 0.3s ease;
+                            padding: 10px;
+                            border-radius: 5px;
+                        }
+
+                        /* Iconițele */
+                        .left-sidebar .sidebar-nav ul li a i {
+                            margin-right: 10px;
+                            font-size: 18px;
+                        }
+
+                        /* Efect la hover */
+                        .left-sidebar .sidebar-nav ul li a:hover {
+                            background-color: #1a252f;
+                            /* Albastru închis */
+                            color: white;
+                        }
+
+                        /* ======= Responsive Design ======= */
+                        @media (max-width: 768px) {
+                            .left-sidebar {
+                                width: 200px;
+                            }
+
+                            .main-content {
+                                margin-left: 200px;
+                            }
+                        }
+
+                        @media (max-width: 480px) {
+                            .left-sidebar {
+                                width: 100%;
+                                height: auto;
+                                position: relative;
+                            }
+
+                            .main-content {
+                                margin-left: 0;
+                                padding: 10px;
+                            }
+
+                            .dashboard-cards {
+                                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                            }
+                        }
+                    </style>
                 </head>
 
                 <body class="fix-header">
@@ -61,170 +129,11 @@ if(isset($_POST['submit'] ))
                             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                                 <div class="navbar-header">
                                     <a class="navbar-brand" href="dashboard.php">
-                                    <span><img src="images\logoadmin.png" style="max-width: 100px;" alt="homepage" class="dark-logo" /></span>
+                                        <span><img src="images\logoadmin.png" style="max-width: 100px;" alt="homepage" class="dark-logo" /></span>
                                     </a>
                                 </div>
                                 <div class="navbar-collapse">
-
-                                    <ul class="navbar-nav mr-auto mt-md-0">
-
-                                        <li class="nav-item dropdown mega-dropdown"> <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-th-large"></i></a>
-                                            <div class="dropdown-menu animated zoomIn">
-                                                <ul class="mega-dropdown-menu row">
-
-
-                                                    <li class="col-lg-3  m-b-30">
-                                                        <h4 class="m-b-20">CONTACT US</h4>
-
-                                                        <form>
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input type="email" class="form-control" placeholder="Enter email">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Message"></textarea>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-info">Submit</button>
-                                                        </form>
-                                                    </li>
-                                                    <li class="col-lg-3 col-xlg-3 m-b-30">
-                                                        <h4 class="m-b-20">List style</h4>
-
-                                                        <ul class="list-style-none">
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="col-lg-3 col-xlg-3 m-b-30">
-                                                        <h4 class="m-b-20">List style</h4>
-
-                                                        <ul class="list-style-none">
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="col-lg-3 col-xlg-3 m-b-30">
-                                                        <h4 class="m-b-20">List style</h4>
-
-                                                        <ul class="list-style-none">
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                            <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> This Is Another Link</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-
-                                    </ul>
-
                                     <ul class="navbar-nav my-lg-0">
-
-
-                                        <li class="nav-item dropdown">
-
-                                            <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
-                                                <ul>
-                                                    <li>
-                                                        <div class="drop-title">Notifications</div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="message-center">
-
-                                                            <a href="#">
-                                                                <div class="btn btn-danger btn-circle m-r-10"><i class="fa fa-link"></i></div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>This is title</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span>
-                                                                </div>
-                                                            </a>
-
-                                                            <a href="#">
-                                                                <div class="btn btn-primary btn-circle m-r-10"><i class="ti-calendar"></i></div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>This is another title</h5> <span class="mail-desc">Just a reminder that you have event</span> <span class="time">9:10 AM</span>
-                                                                </div>
-                                                            </a>
-
-                                                            <a href="#">
-                                                                <div class="btn btn-info btn-circle m-r-10"><i class="ti-settings"></i></div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>This is title</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span>
-                                                                </div>
-                                                            </a>
- 
-                                                            <a href="#">
-                                                                <div class="btn btn-primary btn-circle m-r-10"><i class="ti-user"></i></div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>This is another title</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-
-                                        <li class="nav-item dropdown">
-  
-                                            <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn" aria-labelledby="2">
-                                                <ul>
-                                                    <li>
-                                                        <div class="drop-title">You have 4 new messages</div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="message-center">
-
-                                                            <a href="#">
-                                                                <div class="user-img"> <img src="images/bookingSystem/user-icn.png" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>Michael Qin</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span>
-                                                                </div>
-                                                            </a>
-
-                                                            <a href="#">
-                                                                <div class="user-img"> <img src="images/users/2.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>John Doe</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span>
-                                                                </div>
-                                                            </a>
-
-                                                            <a href="#">
-                                                                <div class="user-img"> <img src="images/users/3.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>Mr. John</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span>
-                                                                </div>
-                                                            </a>
-
-                                                            <a href="#">
-                                                                <div class="user-img"> <img src="images/users/4.jpg" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                                                <div class="mail-contnet">
-                                                                    <h5>Michael Qin</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                         <a class="nav-link text-center" href="javascript:void(0);"> <strong>See all e-Mails</strong> <i class="fa fa-angle-right"></i> </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="images/bookingSystem/user-icn.png" alt="user" class="profile-pic" /></a>
                                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
@@ -248,11 +157,11 @@ if(isset($_POST['submit'] ))
                                         <li class="nav-label">Home</li>
                                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
                                         <li class="nav-label">Log</li>
-                                        <li> <a href="all_users.php"> <span><i class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                                        <li> <a href="all_users.php"> <span><i class="fa fa-user f-s-20 "></i></span><span>Utilizatori</span></a></li>
                                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Servicii</span></a>
                                             <ul aria-expanded="false" class="collapse">
                                                 <li><a href="all_services.php">Toate Serviciile</a></li>
-                                                <li><a href="add_category.php">Adaugă Categorie Serviciu</a></li>
+                                                <li><a href="add_category.php">Adaugă Categorie</a></li>
                                                 <li><a href="add_services.php">Adaugă Serviciu</a></li>
 
                                             </ul>
@@ -266,10 +175,10 @@ if(isset($_POST['submit'] ))
 
                                             </ul>
                                         </li>
-                       
+
                                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Turism</span></a>
                                             <ul aria-expanded="false" class="collapse">
-                                                <li><a href="all_tour.php">Toate Tipurile Turism</a></li>            
+                                                <li><a href="all_tour.php">Toate Tipurile Turism</a></li>
                                                 <li><a href="add_tour.php">Adaugă Tur</a></li>
                                             </ul>
                                         </li>
@@ -283,7 +192,7 @@ if(isset($_POST['submit'] ))
                         </div>
 
                         <div class="page-wrapper">
-                          <!--  <div style="padding-top: 10px;">
+                            <!--  <div style="padding-top: 10px;">
                                 <marquee onMouseOver="this.stop()" onMouseOut="this.start()"> <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a> is the sole owner of this script. It is not suitable for personal use. And releasing it in demo version. Besides, it is being provided for free only from <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a>. For any of your problems contact us on <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a> facebook group / page or message <a href="https://www.facebook.com/dev.mhrony">MH RONY</a> on facebook. Thanks for staying with <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a>.</marquee>
                             </div> -->
 
@@ -300,9 +209,9 @@ if(isset($_POST['submit'] ))
 
                                 <div class="row">
                                     <div class="container-fluid">
-                                        <?php  
-									        echo $error;
-									        echo $success; ?>
+                                        <?php
+                                        echo $error;
+                                        echo $success; ?>
 
 
 
@@ -315,9 +224,9 @@ if(isset($_POST['submit'] ))
                                                 <div class="card-body">
                                                     <form action='' method='post'>
                                                         <div class="form-body">
-                                                            <?php $ssql ="select * from service_cat where c_id='$_GET[cat_upd]'";
-													$res=mysqli_query($db, $ssql); 
-													$row=mysqli_fetch_array($res);?>
+                                                            <?php $ssql = "select * from service_cat where c_id='$_GET[cat_upd]'";
+                                                            $res = mysqli_query($db, $ssql);
+                                                            $row = mysqli_fetch_array($res); ?>
                                                             <hr>
                                                             <div class="row p-t-20">
                                                                 <div class="col-md-12">

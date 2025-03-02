@@ -619,13 +619,13 @@ hr {
   background-size: 100%;
 }
 
-
 .food-item-wrap {
-  width: 250px;
-  height: 350px; /* Toate vor avea aceeași înălțime */
+  border: 1px solid #eaebeb;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 30px;
   background: #fafaf8;
 }
-
 
 .food-item-wrap h5 a {
   color: #25282b;
@@ -729,7 +729,7 @@ hr {
 
 .food-item-wrap .figure-wrap {
   position: relative;
-  height: 500px;
+  height: 400px;
 }
 
 .food-item-wrap .food-item-wrap figure {
@@ -1148,18 +1148,10 @@ Steps
 }
 
 .featured-restaurants .restaurant-logo img {
-  width: 130px;
-  height: 90px;
+  width: 95px;
+  height: auto;
   border: 1px solid #eaebeb;
 }
-.restaurant-logo img {
-  width: 150px;  /* Setează lățimea dorită */
-  height: 150px; /* Setează înălțimea dorită */
-  object-fit: cover; /* Asigură tăierea imaginii pentru a se potrivi dimensiunilor */
-  border-radius: 10px; /* Opțional: rotunjire colțuri */
-  display: block; /* Evită spațiile extra sub imagine */
-}
-
 
 @media (min-width: 320px) and (max-width: 543px) {
   .restaurant-wrap {
@@ -1412,7 +1404,6 @@ footer {
   padding: 90px 0;
   z-index: 1;
   position: relative;
-  bottom: -100px;
 }
 
 .payment-options ul li {
@@ -1434,7 +1425,7 @@ footer h5 {
 footer p,
 footer,
 footer span {
-  font-weight: 200;
+  font-weight: 300;
   color: #9c9da5;
 }
 
