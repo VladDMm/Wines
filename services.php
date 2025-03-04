@@ -20,16 +20,34 @@ session_start();
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <style>
-        @media only screen and (max-width: 768px) {
-            .navbar-toggler {
-                font-size: 24px;
-                padding: 5px 10px;
-            }
+      @media (max-width: 768px) {
+    .navbar {
+        display: flex;
+        flex-direction: column; /* Logo sus, meniu jos */
+        align-items: center; /* Centrează elementele */
+        justify-content: space-between;
+        height: auto;
+        padding: 10px 0;
+    }
 
-            .navbar-brand img {
-                width: 40%;
-            }
-        }
+    .navbar-brand {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .navbar-brand img {
+        width: 40%;
+        display: block;
+    }
+
+    .navbar-toggler {
+        position: absolute;
+        right: 15px; /* Plasează meniul în dreapta */
+        top: 10px; /* Evită suprapunerea cu logo-ul */
+    }
+}
     </style>
 </head>
 
@@ -75,7 +93,7 @@ session_start();
                 </ul>
             </div>
         </div>
-        <div class="inner-page-hero bg-image" data-image-src="images/img/img6.jpg">
+        <div class="inner-page-hero bg-image" data-image-src="images/img/11_Types_of_Wine.webp">
             <div class="container"> </div>
         </div>
         <div class="result-show">
@@ -113,7 +131,7 @@ session_start();
 																<div class="right-content bg-white">
 																	<div class="right-review">
 																		
-																		<a href="wines.php?service_id=' . $rows['service_id'] . '" class="btn btn-purple">View Menu</a> </div>
+																		<a href="wines.php?service_id=' . $rows['service_id'] . '" class="btn btn-purple">Vizualizare produse</a> </div>
 																</div>
 																<!-- end:right info -->
 															</div>';

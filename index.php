@@ -23,8 +23,6 @@ session_start();
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <style>
-    
-
     .food-item {
         display: flex;
         flex-direction: column;
@@ -66,15 +64,38 @@ session_start();
         .food-item {
             width: 100%; /* Pe ecrane mici, ocupă toată lățimea */
         }
-        .navbar-toggler {
-        font-size: 24px;
-        padding: 5px 10px;
+
+    }
+    @media (max-width: 768px) {
+    .navbar {
+        display: flex;
+        flex-direction: column; /* Logo sus, meniu jos */
+        align-items: center; /* Centrează elementele */
+        justify-content: space-between;
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .navbar-brand {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
     }
 
     .navbar-brand img {
         width: 40%;
+        display: block;
     }
+
+    .navbar-toggler {
+        position: absolute;
+        right: 15px; /* Plasează meniul în dreapta */
+        top: 10px; /* Evită suprapunerea cu logo-ul */
     }
+}
+
+
 </style>
 
 </head>
@@ -177,7 +198,7 @@ session_start();
                     <div class="product-name">' . $r['slogan'] . '</div>
                     <div class="price-btn-block" style="display: flex; justify-content: space-between; align-items: center;">
                         <span class="price">MDL ' . $r['price'] . '</span> 
-                        <a href="wines.php?service_id=' . $r['service_id'] . '" class="btn theme-btn-dash">Order Now</a> 
+                        <a href="wines.php?service_id=' . $r['service_id'] . '" class="btn theme-btn-dash">Comandă Acum</a> 
                     </div>
                 </div>
             </div>

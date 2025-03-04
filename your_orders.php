@@ -64,79 +64,6 @@ if (empty($_SESSION['user_id'])) {
                 color: #777;
             }
 
-            /* 
-table { 
-	width: 750px; 
-	border-collapse: collapse; 
-	margin: auto;
-	
-	}
-
-/* Zebra striping */
-            /* tr:nth-of-type(odd) { 
-	background: #eee; 
-	}
-
-th { 
-	background: #404040; 
-	color: white; 
-	font-weight: bold; 
-	
-	}
-
-td, th { 
-	padding: 10px; 
-	border: 1px solid #ccc; 
-	text-align: left; 
-	font-size: 14px;
-	
-	} */
-            /* @media only screen and (max-width: 760px),
-            (min-device-width: 768px) and (max-device-width: 1024px) { */
-
-            /* table { 
-	  	width: 100%; 
-	}
-
-	
-	table, thead, tbody, th, td, tr { 
-		display: block; 
-	} */
-
-
-            /* thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	
-	tr { border: 1px solid #ccc; } */
-
-            /* td { 
-		
-		border: none;
-		border-bottom: 1px solid #eee; 
-		position: relative;
-		padding-left: 50%; 
-	}
-
-	td:before { 
-		
-		position: absolute;
-	
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-		
-		content: attr(data-column);
-
-		color: #000;
-		font-weight: bold;
-	} 
-
-            }*/
             @media only screen and (max-width: 768px) {
                 .table-responsive {
                     overflow-x: auto;
@@ -173,14 +100,133 @@ td, th {
                     font-weight: bold;
                     color: #333;
                 }
+            }
 
-                .navbar-toggler {
-                    font-size: 24px;
-                    padding: 5px 10px;
+            @media (max-width: 768px) {
+                .navbar {
+                    display: flex;
+                    flex-direction: column;
+                    /* Logo sus, meniu jos */
+                    align-items: center;
+                    /* Centrează elementele */
+                    justify-content: space-between;
+                    height: auto;
+                    padding: 10px 0;
+                }
+
+                .navbar-brand {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
                 }
 
                 .navbar-brand img {
                     width: 40%;
+                    display: block;
+                }
+
+                .navbar-toggler {
+                    position: absolute;
+                    right: 15px;
+                    /* Plasează meniul în dreapta */
+                    top: 10px;
+                    /* Evită suprapunerea cu logo-ul */
+                }
+            }
+
+            /* Stilizare generală pentru tabel */
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                background-color: #fff;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .table thead {
+                background-color: #404040;
+                color: white;
+                text-transform: uppercase;
+                font-size: 14px;
+            }
+
+            .table th,
+            .table td {
+                padding: 12px;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            /* Butoane status */
+            .btn {
+                border-radius: 5px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+
+            .btn-info {
+                background-color: #17a2b8;
+                color: white;
+            }
+
+            .btn-warning {
+                background-color: #ffc107;
+                color: black;
+            }
+
+            .btn-success {
+                background-color: #28a745;
+                color: white;
+            }
+
+            .btn-danger {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            /* Responsivitate tabel */
+            @media only screen and (max-width: 768px) {
+                .table-responsive {
+                    overflow-x: auto;
+                    display: block;
+                    white-space: nowrap;
+                }
+
+                thead {
+                    display: none;
+                }
+
+                tbody tr {
+                    display: block;
+                    border: 1px solid #ccc;
+                    margin-bottom: 10px;
+                    padding: 10px;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                tbody td {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px;
+                    border-bottom: 1px solid #ddd;
+                }
+
+                tbody td:before {
+                    content: attr(data-column);
+                    font-weight: bold;
+                    color: #404040;
                 }
             }
         </style>
@@ -291,7 +337,7 @@ td, th {
                                                     <tr>
                                                         <td data-column="Produs"> <?php echo $row['title']; ?></td>
                                                         <td data-column="Cantitatea"> <?php echo $row['quantity']; ?></td>
-                                                        <td data-column="Preţ">$<?php echo $row['price']; ?></td>
+                                                        <td data-column="Preţ">MDL <?php echo $row['price']; ?></td>
                                                         <td data-column="Status">
                                                             <?php
                                                             $status = $row['status'];

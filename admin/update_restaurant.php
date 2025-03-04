@@ -33,7 +33,7 @@
                         $store = "Res_img/" . basename($fnew);
 
                         if ($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
-                            if ($fsize >= 1000000) {
+                            if ($fsize >= 10000000) {
 
 
                                 $error =     '<div class="alert alert-danger alert-dismissible fade show">

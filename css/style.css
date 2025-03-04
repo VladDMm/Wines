@@ -651,6 +651,7 @@ hr {
 
 .food-item-wrap .product-name {
   margin-bottom: 20px;
+  text-align: justify;
 }
 
 .food-item-wrap .content {
@@ -728,8 +729,11 @@ hr {
 }
 
 .food-item-wrap .figure-wrap {
+  object-fit: contain; /* Taie și centrează imaginea pentru a se potrivi */
   position: relative;
-  height: 400px;
+  /* height: 400px; */
+   width: 200px; 
+   left: 20%; 
 }
 
 .food-item-wrap .food-item-wrap figure {
@@ -1148,8 +1152,8 @@ Steps
 }
 
 .featured-restaurants .restaurant-logo img {
-  width: 95px;
-  height: auto;
+  width: auto;
+  height: 90px;
   border: 1px solid #eaebeb;
 }
 
@@ -1900,14 +1904,22 @@ a.more-link {
 
 .menu-widget .food-item .restaurant-logo {
   max-width: 100px;
-  height: auto;
   display: block;
 }
 
 .menu-widget .food-item .restaurant-logo img {
   max-width: 100%;
   display: block;
+  
 }
+/* WINES IMG */
+.restaurant-logo img {
+  width: 120px; /* Ajustează dimensiunea dorită */
+  height: 120px; 
+  object-fit: contain; /* Taie și centrează imaginea pentru a se potrivi */
+  border-radius: 8px; /* Opțional, pentru colțuri rotunjite */
+}
+
 
 .menu-widget .food-item:first-of-type {
   border-top: 1px solid #eaebeb;
@@ -1924,6 +1936,7 @@ a.more-link {
 .menu-widget .food-item .rest-descr {
   padding-left: 115px;
   padding-top: 0;
+  text-align: justify;
 }
 
 .menu-widget .food-item .rest-descr h6 a {
@@ -2027,6 +2040,8 @@ a[aria-expanded="false"] .fa-angle-down {
 .restaurant-entry .entry-logo img {
   max-width: 100%;
   display: block;
+  height: 100px;
+  width: 120px;
 }
 
 .restaurant-entry .entry-dscr {

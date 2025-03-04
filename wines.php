@@ -47,14 +47,38 @@ include_once 'product-action.php';
             .widget-body {
                 padding: 10px;
             }
+        }
 
-            .navbar-toggler {
-                font-size: 24px;
-                padding: 5px 10px;
+        @media (max-width: 768px) {
+            .navbar {
+                display: flex;
+                flex-direction: column;
+                /* Logo sus, meniu jos */
+                align-items: center;
+                /* Centrează elementele */
+                justify-content: space-between;
+                height: auto;
+                padding: 10px 0;
+            }
+
+            .navbar-brand {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
             }
 
             .navbar-brand img {
                 width: 40%;
+                display: block;
+            }
+
+            .navbar-toggler {
+                position: absolute;
+                right: 15px;
+                /* Plasează meniul în dreapta */
+                top: 10px;
+                /* Evită suprapunerea cu logo-ul */
             }
         }
     </style>
@@ -69,7 +93,7 @@ include_once 'product-action.php';
                 <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/logo.png" alt="" width="18%"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item"> <a class="nav-link active" href="index.php">Acasă <span class="sr-only">(current)</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link active" href="index.php">Acasă <span class="sr-only">(curent)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="services.php">Servicii <span class="sr-only"></span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="profile.php">Contul Meu <span class="sr-only"></span></a> </li>
 
@@ -269,7 +293,7 @@ include_once 'product-action.php';
                                                         <input class="b-r-0" type="text" name="pers_count" style="margin-left:30px; margin-bottom: 5px" value="1" size="2" />
                                                     </div>
 
-                                                    <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add To Cart" />
+                                                    <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Adaugă în coş" />
 
 
                                                 </div>
@@ -307,7 +331,7 @@ include_once 'product-action.php';
                                                     <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
                                                         <span class="price pull-left">MDL <?php echo $product['price']; ?></span>
                                                         <input class="b-r-0" type="text" name="quantity" style="margin-left:30px;" value="1" size="2" />
-                                                        <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add To Cart" />
+                                                        <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Adaugă în coş" />
                                                     </div>
                                                     </form>
                                                 </div>

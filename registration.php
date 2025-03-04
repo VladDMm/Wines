@@ -65,15 +65,33 @@ if (isset($_POST['submit'])) {
     <link href="css/style.css" rel="stylesheet">
     <style>
          @media (max-width: 768px) {
-            .navbar-toggler {
-                font-size: 24px;
-                padding: 5px 10px;
-            }
+    .navbar {
+        display: flex;
+        flex-direction: column; /* Logo sus, meniu jos */
+        align-items: center; /* Centrează elementele */
+        justify-content: space-between;
+        height: auto;
+        padding: 10px 0;
+    }
 
-            .navbar-brand img {
-                width: 40%;
-            }
-        }
+    .navbar-brand {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .navbar-brand img {
+        width: 40%;
+        display: block;
+    }
+
+    .navbar-toggler {
+        position: absolute;
+        right: 15px; /* Plasează meniul în dreapta */
+        top: 10px; /* Evită suprapunerea cu logo-ul */
+    }
+}
     </style>
 </head>
 
